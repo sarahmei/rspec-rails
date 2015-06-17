@@ -2,7 +2,7 @@ module RSpec
   module Rails
     module ViewController
       def self.included(_klass)
-        ::ActionView::TestCase::TestController.include(InstanceMethods)
+        ::ActionView::TestCase::TestController.send(:include, InstanceMethods)
       end
 
       module InstanceMethods

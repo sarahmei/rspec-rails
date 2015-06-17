@@ -3,7 +3,7 @@ module  RSpec
     class ViewPathBuilder
       def initialize(route_set)
         @routes = route_set.routes
-        self.class.include(route_set.url_helpers)
+        self.class.send(:include, route_set.url_helpers)
       end
 
       def path_for(path_params)
@@ -17,11 +17,14 @@ module  RSpec
       attr_reader :routes
 
       def route_exists?(path_params)
+        path_keys = path_params.keys
+
         routes.any? do |route|
-          has_all_keys = route.required_keys.all? { |num| path_params.keys.include?(num) }
-          action_match = route.defaults[:action] == path_params[:action]
-          controller_match = route.defaults[:controller] == path_params[:controller]
-          has_all_keys && action_match && controller_match
+          actions_match = (route.defaults[:action] == path_params[:action])
+          controllers_match = (route.defaults[:controller] == path_params[:controller])
+          has_all_keys = route.required_keys.all? { |key| path_keys.include?(key) }
+
+          actions_match && controllers_match && has_all_keys
         end
       end
     end
