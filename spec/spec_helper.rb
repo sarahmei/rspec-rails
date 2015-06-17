@@ -1,7 +1,7 @@
 require 'rails/all'
 
 class << RSpec
-  attr_writer :configuration
+  silence_warnings { attr_writer :configuration }
 end
 
 module RSpecRails
@@ -12,7 +12,7 @@ end
 I18n.enforce_available_locales = true if I18n.respond_to?(:enforce_available_locales)
 
 require 'rspec/support/spec'
-require 'rspec/rails'
+silence_warnings { require 'rspec/rails' }
 require 'ammeter/init'
 
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}

@@ -233,5 +233,23 @@ module RSpec::Rails
         view_spec.template
       end
     end
+
+    describe "extra params" do
+      context "with extra params defined" do
+        it "builds a url with extra params" do
+
+        end
+      end
+
+      context "without extra params defined" do
+        it "builds a url without an id for index and new" do
+
+        end
+
+        it "doesn't build a url for a route that requires anything beyond action controller" do
+
+        end
+      end
+    end
   end
 end

@@ -212,3 +212,34 @@ Feature: view spec
       """
     When I run `rspec spec/views`
     Then the examples should all pass
+
+  Scenario: request.fullpath should always exist for actions that do not require extra parameters
+    Given a file named "spec/views/widgets/index.html.erb_spec.rb" with:
+    """ruby
+      require "rails_helper"
+
+      RSpec.describe "widgets/index" do
+        it "has a request.fullpath that is defined" do
+          expect(controller.request.fullpath).to eq widgets_path
+        end
+      end
+      """
+    When I run `rspec spec/views`
+    Then the examples should all pass
+
+  Scenario: request.fullpath should exist for actions that require extra parameters when the developer supplies them
+    Given a file named "spec/views/widgets/show.html.erb_spec.rb" with:
+    """ruby
+      require "rails_helper"
+
+      RSpec.describe "widgets/show" do
+        it "displays the widget with id: 1" do
+          widget = Widget.create!(:name => "slicer")
+          controller.extra_params = { id: widget.id }
+
+          expect(controller.request.fullpath).to eq widget_path(widget)
+        end
+      end
+      """
+    When I run `rspec spec/views`
+    Then the examples should all pass

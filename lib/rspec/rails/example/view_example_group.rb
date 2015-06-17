@@ -1,4 +1,5 @@
 require 'rspec/rails/view_assigns'
+require 'rspec/rails/extensions/view_controller'
 
 module RSpec
   module Rails
@@ -9,6 +10,7 @@ module RSpec
       include ActionView::TestCase::Behavior
       include RSpec::Rails::ViewAssigns
       include RSpec::Rails::Matchers::RenderTemplate
+      include RSpec::Rails::Extensions::ViewController
 
       # @private
       module ClassMethods
@@ -161,6 +163,7 @@ module RSpec
           controller.controller_path = _controller_path
           controller.request.path_parameters[:controller] = _controller_path
           controller.request.path_parameters[:action]     = _inferred_action unless _inferred_action =~ /^_/
+          controller.request.path = url_for(controller.request.path_parameters) rescue nil
         end
 
         let(:_default_file_to_render) do |example|
