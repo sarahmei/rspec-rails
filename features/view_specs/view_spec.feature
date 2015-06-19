@@ -235,7 +235,7 @@ Feature: view spec
       RSpec.describe "widgets/show" do
         it "displays the widget with id: 1" do
           widget = Widget.create!(:name => "slicer")
-          controller.extra_params = { id: widget.id }
+          controller.extra_params = { :id => widget.id }
 
           expect(controller.request.fullpath).to eq widget_path(widget)
         end
