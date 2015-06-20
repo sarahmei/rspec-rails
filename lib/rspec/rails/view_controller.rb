@@ -3,12 +3,12 @@ module RSpec
     # Methods added to ActionView::TestCase::TestController, only in view specs
     module ViewController
       def self.included(_klass)
-        ::ActionView::TestCase::TestController.send(:include, InstanceMethods)
+        ::ActionView::TestCase::TestController.send(:include, ExtraParamsAccessors)
       end
 
       # Methods that are added to ActionView::TestCase::TestController
       # and exposed in view specs as methods on `controller`.
-      module InstanceMethods
+      module ExtraParamsAccessors
         # Use to set any extra parameters that rendering a URL for this view
         # would need.
         #
