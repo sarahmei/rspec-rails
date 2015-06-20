@@ -1,4 +1,4 @@
-module  RSpec
+module RSpec
   module Rails
     # Builds paths for view specs using a particular route set.
     class ViewPathBuilder
@@ -35,7 +35,14 @@ module  RSpec
         routes.any? do |route|
           actions_match = (route.defaults[:action] == path_params[:action])
           controllers_match = (route.defaults[:controller] == path_params[:controller])
-          has_all_other_keys = route.required_keys.all? { |key| path_keys.include?(key) }
+
+          required_keys =
+            if route.respond_to?(:required_keys) # Rails 3.2 and above
+              route.required_keys
+            else
+              route.segment_keys - [:format]
+            end
+          has_all_other_keys = required_keys.all? { |key| path_keys.include?(key) }
 
           actions_match && controllers_match && has_all_other_keys
         end
