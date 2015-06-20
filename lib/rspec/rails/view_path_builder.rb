@@ -21,9 +21,8 @@ module  RSpec
       #     view_path_builder.path_for({ :controller => 'posts', :action => 'delete' })
       #     # => nil
       def path_for(path_params)
-        if route_exists?(path_params)
-          url_for(path_params.merge(:only_path => true))
-        end
+        return nil unless route_exists?(path_params)
+        url_for(path_params.merge(:only_path => true))
       end
 
     private

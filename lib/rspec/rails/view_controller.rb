@@ -21,9 +21,9 @@ module RSpec
         #     end
         def extra_params=(hash)
           @extra_params = hash
-          self.request.path =
+          request.path =
             ViewPathBuilder.new(::Rails.application.routes).path_for(
-              extra_params.merge(self.request.path_parameters)
+              extra_params.merge(request.path_parameters)
             )
         end
 
