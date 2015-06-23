@@ -25,9 +25,11 @@ module RSpec
         url_for(path_params.merge(:only_path => true))
       end
 
-    private
-
+      # @private
       attr_reader :routes
+      private :routes
+
+    private
 
       def route_exists?(path_params)
         path_keys = path_params.keys
@@ -36,12 +38,11 @@ module RSpec
           actions_match = (route.defaults[:action] == path_params[:action])
           controllers_match = (route.defaults[:controller] == path_params[:controller])
 
-          required_keys =
-            if route.respond_to?(:required_keys) # Rails 3.2 and above
-              route.required_keys
-            else
-              route.segment_keys - [:format]
-            end
+          required_keys = if route.respond_to?(:required_keys) # Rails 3.2 and above
+                            route.required_keys
+                          else
+                            route.segment_keys - [:format]
+                          end
           has_all_other_keys = required_keys.all? { |key| path_keys.include?(key) }
 
           actions_match && controllers_match && has_all_other_keys
