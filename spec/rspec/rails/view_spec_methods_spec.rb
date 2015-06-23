@@ -29,9 +29,9 @@ module RSpec::Rails
           end
         end
 
-        it "redefines them" do
-          silence_warnings { ViewSpecMethods.add_to(VCSampleClass) }
-          expect(VCSampleClass.new.extra_params).to eq({})
+        it "does not redefine them" do
+          ViewSpecMethods.add_to(VCSampleClass)
+          expect(VCSampleClass.new.extra_params).to be_nil
         end
       end
     end

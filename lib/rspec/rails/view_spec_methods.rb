@@ -9,8 +9,9 @@ module RSpec
       # When class is `::ActionView::TestCase::TestController`, these methods
       # are exposed in view specs on the `controller` object.
       def add_to(klass)
-        klass.module_exec do
+        return if klass.instance_methods.include?(:extra_params) && klass.instance_methods.include?(:extra_params=)
 
+        klass.module_exec do
           # Set any extra parameters that rendering a URL for this view
           # would require.
           #
