@@ -3,7 +3,6 @@ module RSpec
     # Builds paths for view specs using a particular route set.
     class ViewPathBuilder
       def initialize(route_set)
-        @routes = route_set.routes
         self.class.send(:include, route_set.url_helpers)
       end
 
@@ -21,32 +20,7 @@ module RSpec
       #     view_path_builder.path_for({ :controller => 'posts', :action => 'delete' })
       #     # => nil
       def path_for(path_params)
-        return nil unless route_exists?(path_params)
-        url_for(path_params.merge(:only_path => true))
-      end
-
-      # @private
-      attr_reader :routes
-      private :routes
-
-    private
-
-      def route_exists?(path_params)
-        path_keys = path_params.keys
-
-        routes.any? do |route|
-          actions_match = (route.defaults[:action] == path_params[:action])
-          controllers_match = (route.defaults[:controller] == path_params[:controller])
-
-          required_keys = if route.respond_to?(:required_keys) # Rails 3.2 and above
-                            route.required_keys
-                          else
-                            route.segment_keys - [:format]
-                          end
-          has_all_other_keys = required_keys.all? { |key| path_keys.include?(key) }
-
-          actions_match && controllers_match && has_all_other_keys
-        end
+        url_for(path_params.merge(:only_path => true)) rescue nil
       end
     end
   end
