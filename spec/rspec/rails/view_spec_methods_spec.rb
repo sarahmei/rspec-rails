@@ -1,7 +1,5 @@
-require "spec_helper"
-
 module RSpec::Rails
-  describe ViewSpecMethods do
+  RSpec.describe ViewSpecMethods do
     before do
       class ::VCSampleClass; end
     end
